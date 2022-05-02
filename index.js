@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion , ObjectId } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express')
 const app = express()
 const cors = require("cors");
@@ -24,13 +24,13 @@ async function run() {
       const query = req.query; //kono query perameter na thakle req.query = {} hobe
       const cursor = await notesCollection.find(query) // query perameter thakle ta onujay khujbe na hoy empty object hobe sob data khuje dibe
       const result = await cursor.toArray() // find kora data gulo akti array te rakhar jonno jate accesss korte subhida hoy
-      res.send(result) 
+      res.send(result)
     })
 
 
     //post method
 
-    app.post('/notes' , async (req , res)=> {
+    app.post('/notes', async (req, res) => {
       const postItem = req.body; // post kora data er body te object ti pawa jay
       const result = await notesCollection.insertOne(postItem);
       res.send(result)
@@ -38,9 +38,9 @@ async function run() {
 
     //put method
 
-    app.put('/notes/:id' , async (req , res)=> {
+    app.put('/notes/:id', async (req, res) => {
       const id = req.params.id; // id param use
-      const updateItem =  { _id : ObjectId(id) }; // id diye specific akti data khuja
+      const updateItem = { _id: ObjectId(id) }; // id diye specific akti data khuja
       const options = { upsert: true }; // update + insert = upsert aita sotto condition dawa
 
       // update data korar khetre body ta aibhabe rakte hoy (following to the docs)
@@ -54,9 +54,9 @@ async function run() {
 
     //delete method
 
-    app.delete('/notes/:id' , async (req , res)=> {
-      const id = req.params.id ;
-      const deleteItem = { _id : ObjectId(id) } ; // id diye specific akti data khuja
+    app.delete('/notes/:id', async (req, res) => {
+      const id = req.params.id;
+      const deleteItem = { _id: ObjectId(id) }; // id diye specific akti data khuja
       const result = await notesCollection.deleteOne(deleteItem);
       res.send(result)
 
@@ -70,7 +70,9 @@ async function run() {
 run().catch(console.log);
 
 
-
+app.get('/', (req, res) => {
+  res.send({ welcome: 'welcome to your server' })
+})
 
 
 app.listen(port)
